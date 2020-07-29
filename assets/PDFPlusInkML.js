@@ -46,7 +46,6 @@ LiveScribe.PDFPlus.InkML.prototype.GenerateXMLString = function () {
     }
 
     this.XMLString = xmlString;
-    //console.log(this.XMLString);
 }
 
 LiveScribe.PDFPlus.InkML.prototype.GenerateBlob = function () {

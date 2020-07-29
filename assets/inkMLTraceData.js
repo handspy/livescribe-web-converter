@@ -29,7 +29,6 @@ LiveScribe.InkML.InkMLTraceGroupTracePoint = function () {
     this.Time = null;
 };
 
-
 LiveScribe.InkML.InkMLTraceGroupTrace = function () {
     this.AudioStrokeIndex = null;
     this.AnnotationIndex = null;

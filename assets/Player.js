@@ -133,12 +133,6 @@ LiveScribe.Player.prototype = new LiveScribe.Events.CustomEventHandlingBase();
 LiveScribe.Player.prototype.Init = function () {
     console.log("Player Init...");
 
-
-    //alert(this.WebContext.UserAgent);
-    //if (this.WebContext.GetPlatformType() == LiveScribe.Web.ContextPlatformType.IOS ||
-    //    (this.WebContext.GetPlatformType() == LiveScribe.Web.ContextPlatformType.ANDROID && this.WebContext.IsChrome()) ||
-    //    (this.WebContext.GetBrowserType() == LiveScribe.Web.ContextBrowserType.SAFARI && this.WebContext.IsSafari7())) {
-
       this.PencastType = this.WebContext.GetPencastType();
 
     if (this.PencastType == LiveScribe.PencastType.LOCAL_PDF) {
@@ -287,6 +281,24 @@ LiveScribe.Player.prototype.EnablePlayer = function () {
         var duration = this.Pencast.Duration;
         this.PlaybackProgressIndicator.SetDuration(duration);
     }
+
+    console.log('-- ended --')
+
+    console.log(this.Pencast.InkMLDocument)
+    /* for (const pageId of this.Pencast.Pages.KeyValuePairIterator) {
+        const page = this.Pencast.Pages.KeyValuePairs[pageId];
+        console.log(page)
+        const startTime = page.SessionStart;
+        console.log(startTime)
+        for (const sessionStroke of page.TraceGroups) {
+            const strokeStartTime = sessionStroke.TimeOffset;
+            console.log(strokeStartTime);
+            for (const point of sessionStroke.Points) {
+                console.log((strokeStartTime + point.Time) + ' ' + point.X + ' ' + point.Y);
+            }
+            
+        }
+    } */
 };
 
 
@@ -661,10 +673,13 @@ LiveScribe.Player.prototype.LocalPdfPencastAudioLoadCompleteHandler = function (
     }
 };
 
-LiveScribe.Player.prototype.LocalPdfPencastLoadCompleteHandler = function (loadEvent) { };
+LiveScribe.Player.prototype.LocalPdfPencastLoadCompleteHandler = function (loadEvent) {
+
+    console.log(loadEvent)
+};
 
 LiveScribe.Player.prototype.LocalPdfPencastSessionAudioConvertToWebAudio = function () {
-    //alert(this.WebAudioFilesToConvert.length);
+
     if (this.WebAudioFilesToConvert.length > 0) {
         var audioFile = this.Pencast.PdfPlusDocument.AudioStreamCollection.ItemAt(this.WebAudioFilesToConvert[0]);
         this.AudioPlayer.AudioContext.decodeAudioData(audioFile.ByteArrayData.buffer, LiveScribe.Events.CreateDelegate(this, this.LocalPdfPencastSessionAudioConvertToWebAudioHandler));
@@ -676,7 +691,7 @@ LiveScribe.Player.prototype.LocalPdfPencastSessionAudioConvertToWebAudio = funct
 };
 
 LiveScribe.Player.prototype.LocalPdfPencastSessionAudioConvertToWebAudioHandler = function (buffer) {
-    alert('!!');
+
     var audioFile = this.Pencast.PdfPlusDocument.AudioStreamCollection.ItemAt(this.WebAudioFilesToConvert[0]);
     audioFile.WebAudioBuffer = buffer;
 
@@ -987,7 +1002,6 @@ LiveScribe.Player.prototype.CanvasClickHandler = function (coordinate) {
         for (var pointIndex = 0; pointIndex < points.length; pointIndex++) {
             if (coordinate.PositionX >= points[pointIndex].X - 100 && coordinate.PositionX <= points[pointIndex].X + 100) {
                 if (coordinate.PositionY >= points[pointIndex].Y - 100 && coordinate.PositionY <= points[pointIndex].Y + 100) {
-                    this.trackInkClickedEvent();
                     var timeOffset = 0;
                     if (stroke.AudioStrokeIndex != null) { timeOffset = stroke.TimeOffset; }
                     else { timeOffset = stroke.TimeOffset - (this.CurrentPage.Annotations[stroke.AnnotationIndex].Start - this.CurrentPage.Annotations[stroke.AnnotationIndex].CorrectedStart); }

@@ -16,7 +16,7 @@ LiveScribe.LocalPdfPencast = function (pencastData, cak) {
     this.InkMLDocument = null;
     this.PdfPlusDocumentParser = new LiveScribe.PDFPlus.PDFPlusDocumentParser();
     this.Sessions = null;
-    
+
     this.OnLoadStart = null;
     this.OnLoadComplete = null;
     this.OnImageLoadComplete = null;
@@ -31,7 +31,7 @@ LiveScribe.LocalPdfPencast = function (pencastData, cak) {
     this.PdfPlusDocumentParser.OnMessage = LiveScribe.Events.CreateDelegate(this, this.PdfPlusParserMessageHandler);
 
     this.PdfPlusDocumentParser.PdfArrayBuffer = this.PdfPlusData;
-    
+
     this.PdfPlusDocumentParser.Init();
     this.InitBase(pencastData, cak);
 }
@@ -64,15 +64,15 @@ LiveScribe.LocalPdfPencast.prototype.CompleteDataLoading = function () {
     this.AdjustedAudioFiles = this.GetAdjustedAudioFiles();
 
     if (this.Sessions.Count() == 0) { this.HasAudio = false; }
-    if (this.Pages.Count() == 0) { this.IsPaperless = true;}
+    if (this.Pages.Count() == 0) { this.IsPaperless = true; }
 
-    for (var index = 0; index < this.Sessions.Count() ; index++) {
+    for (var index = 0; index < this.Sessions.Count(); index++) {
         this.Duration += this.Sessions.ItemAt(index).SessionDuration;
     }
 
-    for (var index = 0; index < this.Pages.Count() ; index++) {
+   /*  for (var index = 0; index < this.Pages.Count(); index++) {
         this.Pages.ItemAt(index).IdentifyStrokes();
-    }
+    } */
 
     if (this.OnDataLoadComplete != null && this.OnDataLoadComplete != undefined) {
         setTimeout(LiveScribe.Events.CreateDelegate(this, this.OnDataLoadComplete), 25);
@@ -80,9 +80,6 @@ LiveScribe.LocalPdfPencast.prototype.CompleteDataLoading = function () {
 
     setTimeout(LiveScribe.Events.CreateDelegate(this, this.GetAudio), 25);
 }
-
-
-
 
 //----------------------------------------- Page Data ------------------------------------------
 LiveScribe.LocalPdfPencast.prototype.GetPages = function () {
@@ -108,10 +105,10 @@ LiveScribe.LocalPdfPencast.prototype.GetPage = function (pageAddress) {
     var sessionOnPage = this.InkMLDocument.AudioSessions.ItemAt(0);
     if (sessionOnPage != null && sessionOnPage != undefined) {
         page.AudioStrokes = sessionOnPage.AudioStrokes;
-        page.SessionStart = sessionOnPage.Start;   
+        page.SessionStart = sessionOnPage.Start;
     }
-    page.IdentifyStrokes(); 
-    
+    page.IdentifyStrokes();
+
     return page;
 };
 
@@ -120,7 +117,7 @@ LiveScribe.LocalPdfPencast.prototype.GetPageCount = function () {
 };
 
 LiveScribe.LocalPdfPencast.prototype.GetPageIndex = function (pageAddress) {
-    for (var index =0; index < this.PdfPlusDocument.PageAddresses.length; index++) {
+    for (var index = 0; index < this.PdfPlusDocument.PageAddresses.length; index++) {
         if (pageAddress == this.PdfPlusDocument.PageAddresses[index]) {
             return index;
         }
@@ -145,9 +142,6 @@ LiveScribe.LocalPdfPencast.prototype.GetPageByIndex = function (index) {
     return page;
 };
 
-
-
-
 //----------------------------------------- Session Data ------------------------------------------
 LiveScribe.LocalPdfPencast.prototype.GetSessions = function () {
     var sessions = new LiveScribe.Collections.NamedList();
@@ -161,14 +155,14 @@ LiveScribe.LocalPdfPencast.prototype.GetSessions = function () {
 }
 
 LiveScribe.LocalPdfPencast.prototype.GetSession = function (sessionIndex) {
-    var session = new LiveScribe.PDFPlus.PDFPlusSession(); 
+    var session = new LiveScribe.PDFPlus.PDFPlusSession();
     session.AudioSession = this.InkMLDocument.AudioSessions.ItemAt(sessionIndex);
     session.ID = session.AudioSession.Name;
     session.Start = session.AudioSession.Start;
     session.SessionDuration = session.GetDuration();
     session.PageCount = this.PdfPlusDocument.PageCount;
     session.PageAddresses = this.PdfPlusDocument.PageAddresses;
-    
+
 
     if (this.InkMLDocument.TraceGroups.Count() <= 0) {
         session.IsPaperless = true;
@@ -192,19 +186,19 @@ LiveScribe.LocalPdfPencast.prototype.GetSession = function (sessionIndex) {
 //----------------------------------------- Audio File Data ------------------------------------------
 
 
-function compare(a,b) {
-  if (a.Start < b.Start)
-     return -1;
-  if (a.Start > b.Start)
-    return 1;
-  return 0;
+function compare(a, b) {
+    if (a.Start < b.Start)
+        return -1;
+    if (a.Start > b.Start)
+        return 1;
+    return 0;
 }
 
 LiveScribe.LocalPdfPencast.prototype.GetAllAudioFiles = function () {
     var audioFiles = new Array();
 
     if (this.HasAudio) {
-        for (var sessionIndex = 0; sessionIndex < this.Sessions.Count() ; sessionIndex++) {
+        for (var sessionIndex = 0; sessionIndex < this.Sessions.Count(); sessionIndex++) {
             var session = this.Sessions.ItemAt(sessionIndex);
             var sortedAudioFiles = session.AudioSession.AudioFiles.sort(compare);
 
@@ -316,7 +310,7 @@ LiveScribe.LocalPdfPencast.prototype.GetAllAudioStrokes = function () {
     var pageAudioStrokes = new Array();
 
     if (this.HasAudio) {
-        for (var sessionIndex = 0; sessionIndex < this.Sessions.Count() ; sessionIndex++) {
+        for (var sessionIndex = 0; sessionIndex < this.Sessions.Count(); sessionIndex++) {
             var session = this.Sessions.ItemAt(sessionIndex);
 
             for (var index = 0; index < session.AudioSession.AudioStrokes.length; index++) {
@@ -338,7 +332,7 @@ LiveScribe.LocalPdfPencast.prototype.GetAdjustedAudioStrokeTimes = function () {
         for (var index = 0; index < this.AudioStrokes.length; index++) {
             var audioStroke = this.AudioStrokes[index];
             var audioFileIndex = this.GetAudioFileIndexByAudioStroke(audioStroke);
-            
+
 
             var newAudioStroke = new LiveScribe.InkML.InkMLAudioSessionAudioStroke();
             newAudioStroke.PageAddress = audioStroke.PageAddress;
@@ -373,7 +367,7 @@ LiveScribe.LocalPdfPencast.prototype.GetAllAnnotations = function () {
     var annotations = new Array();
 
     if (this.HasAudio) {
-        for (var sessionIndex = 0; sessionIndex < this.Sessions.Count() ; sessionIndex++) {
+        for (var sessionIndex = 0; sessionIndex < this.Sessions.Count(); sessionIndex++) {
             var session = this.Sessions.ItemAt(sessionIndex);
 
             for (var index = 0; index < session.AudioSession.Annotations.length; index++) {
@@ -449,7 +443,7 @@ LiveScribe.LocalPdfPencast.prototype.GetAdjustedSessionStrokes = function (pageI
                 audioFileIndex = this.GetAudioFileIndexByAnnotation(annotation);
             }
 
-            
+
             var adjustedStroke = new LiveScribe.InkML.InkMLTraceGroupTrace();
             adjustedStroke.PageIndex = pageIndex;
             adjustedStroke.AudioStrokeIndex = stroke.AudioStrokeIndex;
@@ -485,7 +479,7 @@ LiveScribe.LocalPdfPencast.prototype.GetSessionAudioFile = function (id) {
 
 LiveScribe.LocalPdfPencast.prototype.GetPageBackgroundImage = function (pageAddress) {
     if (this.InkMLDocument.BackgroundImages.Count() > 0) {
-        try{
+        try {
             var imageKey = this.InkMLDocument.BackgroundImages.Item(pageAddress).Key;
             var imageURI = this.PdfPlusDocument.ImageCollection.Item(imageKey).BlobURL;
 
@@ -494,7 +488,7 @@ LiveScribe.LocalPdfPencast.prototype.GetPageBackgroundImage = function (pageAddr
 
             return image;
         }
-        catch(exception){
+        catch (exception) {
             return null;
         }
     }
@@ -506,7 +500,7 @@ LiveScribe.LocalPdfPencast.prototype.GetPageBackgroundImage = function (pageAddr
 
 //----------------------------------------- Event Handlers ------------------------------------------
 LiveScribe.LocalPdfPencast.prototype.PdfPlusParserDocumentParseStartHandler = function () {
-    if(this.OnLoadStart != null || this.OnLoadStart != undefined){
+    if (this.OnLoadStart != null || this.OnLoadStart != undefined) {
         this.OnLoadStart();
     }
 };

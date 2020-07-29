@@ -1,8 +1,7 @@
 ﻿// ***********************************************************************************************************
 // Name: Custom Event Handling Base Class
 // Type: Base Class
-// Author: Cliff Gower
-//************************************************************************************************************
+// ***********************************************************************************************************
 
 //dependencies
 //Collections.NamedList.js
@@ -37,7 +36,7 @@ LiveScribe.Events.CustomEventHandlingBase.prototype.UnregisterEventHandler = fun
 
 LiveScribe.Events.CustomEventHandlingBase.prototype.FireEvent = function (event, eventArgs) {
     var eventToFire = this.Events.Item(event);
-    for (var index = 0; index < eventToFire.Count() ; index++) {
+    for (var index = 0; index < eventToFire.Count(); index++) {
         eventToFire.ItemAt(index).Delegate(eventArgs);
     }
 };
@@ -60,5 +59,3 @@ LiveScribe.Events.CustomEventHandler = function (name, event, delegate) {
         this.Delegate = delegate;
     }
 }
-
-

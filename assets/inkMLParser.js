@@ -19,6 +19,7 @@ LiveScribe.InkML.InkMLParser.prototype.Parse = function () {
     var domParser = new DOMParser();
     try {
         this.XMLDom = domParser.parseFromString(this.RawData, 'text/xml');
+        console.log(this.RawData)
     }
     catch (err) {
         var error = err;
@@ -82,6 +83,7 @@ LiveScribe.InkML.InkMLParser.prototype.GetInkSource = function () {
 
     this.InkMLDocument.InkSource.SampleRate.Uniform = inkSourceSampleRateNode.getAttribute('uniform');
     this.InkMLDocument.InkSource.SampleRate.Value = parseInt(inkSourceSampleRateNode.getAttribute('value'));
+    this.InkMLDocument.InkSource.SampleRate.Rate = Math.round(1000 / this.InkMLDocument.InkSource.SampleRate.Value);
 
     var inkSourceTraceFormatNode = inkSourceNode.getElementsByTagName("traceFormat")[0];
     var inkSourceTraceFormatChannelNodes = inkSourceTraceFormatNode.getElementsByTagName("channel");
@@ -129,7 +131,6 @@ LiveScribe.InkML.InkMLParser.prototype.GetBackgroundImages = function () {
             this.InkMLDocument.BackgroundImages.Add(backgroundImage.PageAddress, backgroundImage);
         }
     }
-    
 
     setTimeout(LiveScribe.Events.CreateDelegate(this, this.ParseData), 25);
 }
@@ -240,11 +241,22 @@ LiveScribe.InkML.InkMLParser.prototype.GetTraceGroups = function () {
                     var traceGroupPoint = new LiveScribe.InkML.InkMLTraceGroupTracePoint();
                     traceGroupPoint.X = parseInt(traceGroupPointValues[0]);
                     traceGroupPoint.Y = parseInt(traceGroupPointValues[1]);
-                    traceGroupPoint.Time = (this.InkMLDocument.InkSource.SampleRate.Value * traceGroupPointValuesIndex);
+                    traceGroupPoint.Time = (this.InkMLDocument.InkSource.SampleRate.Rate * traceGroupPointValuesIndex);
 
                     trace.Points.push(traceGroupPoint);
                 }
             }
+
+            /* if (traceGroupTraceNodeIndex > 0) {
+                const previousTrace = traceGroup.Traces[traceGroup.Traces.length - 1];
+                const length = previousTrace.Points.length;
+                for (let i = length - 1; i >= 0; i--) {
+                    if (previousTrace.Points[i].Time > trace.TimeOffset) {
+                        console.log(' -- ' + previousTrace.Points[i].Time + ' ' + trace.TimeOffset);
+                        previousTrace.Points.pop()
+                    }
+                }
+            } */
 
             traceGroup.Traces.push(trace);
         }

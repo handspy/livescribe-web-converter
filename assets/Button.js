@@ -50,7 +50,7 @@ LiveScribe.UI.ButtonControl = function (buttonElement) {
 
 LiveScribe.UI.ButtonControl.prototype.Enable = function () {
     LiveScribe.Events.AddHandler(this.ButtonElement, 'click', this.ButtonClickDelegate);
-    
+
     if (this.SupportsMSPointerEvents) {
         LiveScribe.Events.AddHandler(this.ButtonElement, 'MSPointerDown', this.ButtonMouseDownDelegate);
         LiveScribe.Events.AddHandler(this.ButtonElement, 'MSPointerUp', this.ButtonMouseUpDelegate);

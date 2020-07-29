@@ -16,8 +16,6 @@ LiveScribe.UI.CanvasControlMoveCoordinate = function () {
     this.PositionY = null;
 };
 
-
-
 LiveScribe.UI.CanvasControl = function (canvasElement, backgroundCanvasElement, canvasContainerElement) {
     this.ForegroundCanvasElement = canvasElement;
     this.ForegroundCanvasContext = this.ForegroundCanvasElement.getContext("2d");
@@ -108,7 +106,7 @@ LiveScribe.UI.CanvasControl.prototype.DrawStroke = function (canvasContext, stro
     this.mLastNumberCoordinates = -1;
 
     this.mCoords = this.AdjustStrokePoints(stroke, pointCount, offsetX, offsetY);
-    /*console.log("mCoords=%O", this.mCoords);*/
+
     this.RunThroughLowPassFilter();
     this.GenerateVector();
     this.GenerateStroke();
@@ -118,7 +116,6 @@ LiveScribe.UI.CanvasControl.prototype.DrawStroke = function (canvasContext, stro
     for (var i = 0 ; i < this.moLineSegments.length ; i++) {
         canvasContext.lineCap = 'round';
         canvasContext.lineTo(this.moLineSegments[i].X, this.moLineSegments[i].Y);
-        /*console.log('canvasContext.lineTo(%f, %f)', this.moLineSegments[i].X, this.moLineSegments[i].Y);*/
     }
 
     canvasContext.closePath();
@@ -152,7 +149,6 @@ LiveScribe.UI.CanvasControl.prototype.AdjustStrokePoints = function (stroke, poi
         }
     }
 
-    //console.log('stroke.Points=%O adjustedPoints=%O', stroke.Points, adjustedPoints);
     return adjustedPoints;
 };
 

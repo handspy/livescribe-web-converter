@@ -3,12 +3,11 @@ var LiveScribe = LiveScribe || {};
 LiveScribe.InkML = LiveScribe.InkML || {};
 
 
-/*************************** inkML Ink Source ********************************/
+/*************************** inkML Source ********************************/
 LiveScribe.InkML.InkMLInkSourceSampleRate = function () {
     this.Uniform = false;
     this.Value = null;
 };
-
 
 LiveScribe.InkML.InkMLInkSourceSampleRateTraceFormatChannel = function () {
     this.Name = null;
@@ -16,11 +15,9 @@ LiveScribe.InkML.InkMLInkSourceSampleRateTraceFormatChannel = function () {
     this.Units = null;
 };
 
-
 LiveScribe.InkML.InkMLInkSourceSampleRateTraceFormat = function () {
     this.Channels = new Array();
 };
-
 
 LiveScribe.InkML.InkMLInkSource = function () {
     this.ID = null;

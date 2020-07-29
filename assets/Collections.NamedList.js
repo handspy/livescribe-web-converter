@@ -23,7 +23,7 @@ LiveScribe.Collections.NamedList.prototype.Update = function (key, value) {
 
 LiveScribe.Collections.NamedList.prototype.UpdateItemAt = function (index, value) {
     if (this.KeyValuePairIterator[index] != null
-    && this.KeyValuePairIterator[index] != undefined) {
+        && this.KeyValuePairIterator[index] != undefined) {
         var key = this.KeyValuePairIterator[index];
         this.KeyValuePairs[key] = value;
     }
@@ -36,7 +36,7 @@ LiveScribe.Collections.NamedList.prototype.Remove = function (key) {
 
 LiveScribe.Collections.NamedList.prototype.RemoveItemAt = function (index) {
     if (this.KeyValuePairIterator[index] != null
-    && this.KeyValuePairIterator[index] != undefined) {
+        && this.KeyValuePairIterator[index] != undefined) {
         var key = this.KeyValuePairIterator[index];
         delete this.KeyValuePairs[key];
         this.KeyValuePairIterator.splice(index, 1);
@@ -51,14 +51,14 @@ LiveScribe.Collections.NamedList.prototype.Clear = function () {
 
 LiveScribe.Collections.NamedList.prototype.Item = function (key) {
     if (this.KeyValuePairs[key] != null
-    && this.KeyValuePairs[key] != undefined) {
+        && this.KeyValuePairs[key] != undefined) {
         return this.KeyValuePairs[key];
     }
 };
 
 LiveScribe.Collections.NamedList.prototype.ItemAt = function (index) {
     if (this.KeyValuePairIterator[index] != null
-    && this.KeyValuePairIterator[index] != undefined) {
+        && this.KeyValuePairIterator[index] != undefined) {
         var key = this.KeyValuePairIterator[index];
         return this.KeyValuePairs[key];
     }
@@ -66,7 +66,7 @@ LiveScribe.Collections.NamedList.prototype.ItemAt = function (index) {
 
 LiveScribe.Collections.NamedList.prototype.KeyAt = function (index) {
     if (this.KeyValuePairIterator[index] != null
-    && this.KeyValuePairIterator[index] != undefined) {
+        && this.KeyValuePairIterator[index] != undefined) {
         return this.KeyValuePairIterator[index];
     }
 };

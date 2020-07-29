@@ -61,7 +61,7 @@
             }
             return String.fromCharCode.apply(null, chars);
         },
-        _movePointerTo: function(offset) {
+        _movePointerTo: function (offset) {
             if (offset < 0)
                 this.streamPosition = 0;
             else if (offset > this.dataView.byteLength)

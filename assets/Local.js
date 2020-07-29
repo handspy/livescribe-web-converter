@@ -3,7 +3,6 @@ var LiveScribe = LiveScribe || {};
 LiveScribe.Local = LiveScribe.Local || {};
 
 
-
 // Local Asset Loader Object
 LiveScribe.Local.LocalAssetLoader = function (pdfPlusData) {
     this.PdfPlusData = pdfPlusData;
@@ -50,6 +49,7 @@ LiveScribe.Local.LocalAssetLoader.prototype.ParsePdfPlusDocument = function () {
 
 LiveScribe.Local.LocalAssetLoader.prototype.CompleteAssetLoading = function (file) {
     var totalTimeToLoad = (new Date().getTime() - this.mStartTime) / 1000;
+    console.log('loading time ... ' + totalTimeToLoad);
     setTimeout(LiveScribe.Events.CreateDelegate(this, this.FireOnAssetLoadComplete), 25);
 };
 

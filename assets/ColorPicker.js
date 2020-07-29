@@ -1,8 +1,7 @@
 ﻿// ***********************************************************************************************************
 // Name: Color Picker UI Control
 // Type:User Control
-// Author: Cliff Gower
-//************************************************************************************************************
+// ***********************************************************************************************************
 
 var LiveScribe = LiveScribe || {};
 LiveScribe.UI = LiveScribe.UI || {};
@@ -10,23 +9,16 @@ LiveScribe.UI = LiveScribe.UI || {};
 //dependencies
 //Framework.EventHandling.js
 
-
-
 // **********************************  Color Picker Event ****************************************************
 LiveScribe.UI.ColorPickerEvent = {
     COLOR_CHANGE: 0
 };
 
-
-
-// **********************************  Color Pair ****************************************************
-LiveScribe.UI.ColorPair = function(){
+// ***************************************  Color Pair ****************************************************
+LiveScribe.UI.ColorPair = function () {
     this.Foreground = null;
     this.Background = null;
 };
-
-
-
 
 // **********************************  Color Picker Item ****************************************************
 LiveScribe.UI.ColorPickerItem = function (foregroundColorElement, backgroundColorElement) {

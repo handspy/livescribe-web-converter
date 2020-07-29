@@ -52,7 +52,6 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ExtractXrefTableEntries = fun
     var trailerOffset = this.FindOffsetFromEnd("trailer");
 
     var xrefTableString = this.GetObjectString(parseInt(xrefOffset, 10), trailerOffset);
-    //console.log("xrefTableString ==> " + xrefTableString);
 
     var tableEntries = xrefTableString.split('\n');
 
@@ -61,7 +60,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ExtractXrefTableEntries = fun
     // 1st entry indicates the length of table - not required
     // 2nd entry indicates the '0th' object, which is not used.
     var objectId = 1;
-    for (var index = 3; index < tableEntries.length-1; index++) {
+    for (var index = 3; index < tableEntries.length - 1; index++) {
         var currentEntry = tableEntries[index];
         var currentEntryValues = currentEntry.split(' ');
         var startOffset = parseInt(currentEntryValues[0], 10);
@@ -70,21 +69,20 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ExtractXrefTableEntries = fun
     }
 };
 
-
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ParseInkMLAndImages = function () {
-  
+
     if (this.OnDocumentParseStart != null && this.OnDocumentParseStart != undefined) {
         this.OnDocumentParseStart();
     }
 
-    this.ExtractionTasks.push(LiveScribe.Events.CreateDelegate(this, this.GetImages));
+    //this.ExtractionTasks.push(LiveScribe.Events.CreateDelegate(this, this.GetImages));
     this.ExtractionTasks.push(LiveScribe.Events.CreateDelegate(this, this.GetInkML));
 
     this.ScheduleAssetsExtraction();
 }
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ParseInkML = function () {
-    
+
     if (this.OnDocumentParseStart != null && this.OnDocumentParseStart != undefined) {
         this.OnDocumentParseStart();
     }
@@ -115,7 +113,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ParseAudio = function () {
 }
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ScheduleAssetsExtraction = function () {
-  setTimeout(LiveScribe.Events.CreateDelegate(this, this.ExtractAssets), 25);
+    setTimeout(LiveScribe.Events.CreateDelegate(this, this.ExtractAssets), 25);
 }
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ExtractAssets = function () {
@@ -139,7 +137,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetCatalogs = function () {
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetMainCatalog = function () {
 
     var rootOffset = this.FindOffsetFromEnd("/Root");
-    var rootObject = this.GetObjectString(rootOffset, rootOffset+13);
+    var rootObject = this.GetObjectString(rootOffset, rootOffset + 13);
 
     var catalogObjectId = rootObject.split(' ')[1];
     var catalogString = this.GetObjectStringByObjectId(catalogObjectId);
@@ -152,11 +150,11 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetMainCatalog = function () 
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetLivescribeCatalog = function () {
     var catalogObjectID = this.PdfDocument.MainCatalog.CatalogEntries.Item('Livescribe_Metadata');
-    
+
     if (!catalogObjectID) {
-      throw new Error(_i18n("This player can only load PDFs created by Livescribe. Please select a Livescribe PDF."));
+        throw new Error(_i18n("This player can only load PDFs created by Livescribe. Please select a Livescribe PDF."));
     }
-    
+
     this.PdfDocument.LivescribeCatalog = this.GetCatalog(catalogObjectID);
 };
 
@@ -168,7 +166,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetEmbeddedFilesCatalog = fun
 
         catalogObjectID = this.PdfDocument.NamesCatalog.CatalogEntries.Item('EmbeddedFiles');
         this.PdfDocument.EmbeddedFileNamesCatalog = this.GetCatalog(catalogObjectID);
-        
+
         catalogObjectID = this.PdfDocument.EmbeddedFileNamesCatalog.CatalogEntries.Item('Names');
         this.PdfDocument.EmbeddedFilesCatalog = this.GetAudioCatalog(catalogObjectID);
     }
@@ -204,26 +202,25 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetAudioCatalog = function (i
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetImages = function () {
     var start = new Date().getTime();
-    for (var index = 0; index < this.PdfDocument.LivescribeCatalog.CatalogEntries.Count() ; index++) {
+    for (var index = 0; index < this.PdfDocument.LivescribeCatalog.CatalogEntries.Count(); index++) {
         var key = this.PdfDocument.LivescribeCatalog.CatalogEntries.KeyAt(index);
         if (key.lastIndexOf(".png") > -1) {
 
             var imageObjectID = this.PdfDocument.LivescribeCatalog.CatalogEntries.Item(key);
-            
+
             var imageStartOffset = this.xrefTableEntries.Item(imageObjectID);
             var imageEndOffset = this.FindOffsetFromAnOffset(imageStartOffset, 'stream');
             var imageString = this.GetObjectString(imageStartOffset, imageEndOffset);
 
             var imageStreamLength = null;
             var imageStreamArray = null;
-            
+
             var lengthReferenceString = new RegExp("(Length [0-9]* 0 R)").exec(imageString);
             if (lengthReferenceString != null && lengthReferenceString.length > 0) {
                 var imageStreamLengthObjectId = lengthReferenceString[0].split(' ')[1];
                 var lengthObjectString = this.GetObjectStringByObjectId(imageStreamLengthObjectId);
                 imageStreamLength = parseInt(lengthObjectString.split('\n')[1]);
                 imageStreamArray = new Uint8Array(this.PdfArrayBuffer, imageEndOffset + 2, imageStreamLength);
-
             } else {
                 imageString = imageString.replace(imageObjectID + ' 0 obj\n<<\n/', '');
                 imageString = imageString.replace('\n>>\nstream', '');
@@ -247,7 +244,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetImages = function () {
 };
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetInkML = function () {
-    for (var index = 0; index < this.PdfDocument.LivescribeCatalog.CatalogEntries.Count() ; index++) {
+    for (var index = 0; index < this.PdfDocument.LivescribeCatalog.CatalogEntries.Count(); index++) {
         var key = this.PdfDocument.LivescribeCatalog.CatalogEntries.KeyAt(index);
         if (key.lastIndexOf("_InkML") > -1) {
 
@@ -255,12 +252,12 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetInkML = function () {
 
             var inkStartOffset = this.xrefTableEntries.Item(inkObjectID);
             var inkEndOffset = this.FindOffsetFromAnOffset(inkStartOffset, 'stream');
-            var inkString = this.GetObjectString(inkStartOffset, inkEndOffset);    
+            var inkString = this.GetObjectString(inkStartOffset, inkEndOffset);
 
             var inkStreamArray = null;
             var compressedInkStreamArray = null;
             var inkStreamLength = null;
-            
+
             var lengthReferenceString = new RegExp("(/Length [0-9]* 0 R)").exec(inkString);
             if (lengthReferenceString != null) {
                 // length of stream is passed as reference..
@@ -277,7 +274,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetInkML = function () {
                 inkString = inkString.replace('\n>>\nstream', '');
                 inkStreamLength = parseInt(inkString.split(' ')[1]);
             }
-            
+
 
             if (inkString.lastIndexOf("FlateDecode") > -1) {
                 // This PDF contains compressed InkML..
@@ -289,11 +286,11 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetInkML = function () {
                 } else {
                     compressedInkStreamArray = new Uint8Array(this.PdfArrayBuffer, inkEndOffset + 1, inkStreamLength);
                 }
-                
+
                 var inflate = new Zlib.Inflate(compressedInkStreamArray);
                 inkStreamArray = new Uint8Array(inflate.decompress());
-                console.log("This inkml is de-Compressed successfully!");
 
+                console.log("This inkml is de-Compressed successfully!");
             } else {
                 inkStreamArray = new Uint8Array(this.PdfArrayBuffer, inkEndOffset + 1, inkStreamLength);
             }
@@ -309,13 +306,16 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetInkML = function () {
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.ParseInkMLDocument = function () {
     this.InkMLParser.RawData = this.PdfDocument.InkMLCollection.ItemAt(0).XMLString;
+
+    $("#mDownloadButton").on("click", function () { Download(this.InkMLParser.RawData, "application/xml", "doc.inkml"); }.bind(this));
+    $("#mDownloadButton").css({ display: "block" });
+
     this.InkMLParser.Parse();
 };
 
-
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetAudio = function () {
     if (this.PdfDocument.EmbeddedFilesCatalog != null && this.PdfDocument.EmbeddedFilesCatalog != undefined) {
-        for (var index = 0; index < this.PdfDocument.EmbeddedFilesCatalog.CatalogEntries.Count() ; index++) {
+        for (var index = 0; index < this.PdfDocument.EmbeddedFilesCatalog.CatalogEntries.Count(); index++) {
             var key = this.PdfDocument.EmbeddedFilesCatalog.CatalogEntries.KeyAt(index);
 
             if (key.lastIndexOf(".mp4") > -1 || key.lastIndexOf(".m4a") > -1) {
@@ -325,11 +325,8 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetAudio = function () {
                 var audioStreamArray = null;
 
                 if (this.isConvertedPDF) {
-
                     audioObjectID = this.PdfDocument.EmbeddedFilesCatalog.CatalogEntries.Item(key);
-
                 } else {
-
                     var audioPointerID = this.PdfDocument.EmbeddedFilesCatalog.CatalogEntries.Item(key);
                     var audioPointerString = this.GetObjectStringByObjectId(audioPointerID);
 
@@ -342,7 +339,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetAudio = function () {
                     var audioPointerEntries = audioPointerString.split('/');
                     var audioPointerObjectEntry = audioPointerEntries[1];
                     var audioObjectIDString = audioPointerObjectEntry.split(' ')[1];
-                    audioObjectID = parseInt(audioObjectIDString); 
+                    audioObjectID = parseInt(audioObjectIDString);
                 }
 
                 // Get audio file stream
@@ -379,7 +376,7 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetAudio = function () {
 
         if (this.OnAudioParseComplete != null && this.OnAudioParseComplete != undefined) {
             this.OnAudioParseComplete(this.PdfDocument.AudioStreamCollection);
-        }        
+        }
     }
 
     this.ScheduleAssetsExtraction();
@@ -405,7 +402,6 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.FindOffsetFromEnd = function 
     return -1;
 };
 
-
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.FindOffsetFromAnOffset = function (offset, token) {
     this.Reader.seek(offset, seekOrigin.begin);
     var tokenLength = token.length;
@@ -426,23 +422,18 @@ LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.FindOffsetFromAnOffset = func
 
 // Added by MNaqvi
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetObjectStringByObjectId = function (objectId) {
-
     var startOffset = this.xrefTableEntries.Item(objectId);
     var endOffset = this.FindOffsetFromAnOffset(startOffset, 'endobj');
     return this.GetObjectString(startOffset, endOffset);
 };
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetObjectStringByObjectIdAndEndToken = function (objectId, endToken) {
-
-    console.log("mehdi - GetObjectStringByObjectIdAndEndToken called for id " + objectId + " and token " + endToken);
-
     var startOffset = this.xrefTableEntries.Item(objectId);
     var endOffset = this.FindOffsetFromAnOffset(startOffset, endToken);
     return this.GetObjectString(startOffset, endOffset);
 };
 
 LiveScribe.PDFPlus.PDFPlusDocumentParser.prototype.GetObjectString = function (startOffset, endOffset) {
-
     this.Reader.seek(startOffset, seekOrigin.begin);
     return this.Reader.readString(endOffset - startOffset);
 };

@@ -94,10 +94,10 @@ LiveScribe.Animation.GetOpacity = function (element) {
         }
     }
     else {
-       opacity = (element.style.opacity * 10);
-   }
+        opacity = (element.style.opacity * 10);
+    }
 
-   return opacity;
+    return opacity;
 
 }
 

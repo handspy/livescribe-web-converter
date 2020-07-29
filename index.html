@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<!-- saved from url=(0059)http://www.livescribe.com/int/pdf/player/lsnotesdesktop.htm -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Livescribe Player</title>
-    <!--Copyright © 2007-2013 Livescribe, Inc. All rights reserved.-->
-
 
     <!--[if IE]>
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -41,14 +38,10 @@
     <!--        <script type="text/javascript" src="../scripts/player/com/livescribe/lsnotes/utility/Callback.js"></script>
 	    <script type="text/javascript" src="../scripts/player/com/livescribe/lsnotes/utility/CanvasProgressBar.js"></script>-->
     <script type="text/javascript" src="./assets/Utility.js"></script>
-    <script type="text/javascript" src="./assets/EnvironmentManager.js"></script>
-    <script type="text/javascript" src="./assets/MipMap.js"></script>
     <!--        <script type="text/javascript" src="../scripts/player/com/livescribe/lsnotes/utility/RESTDictionaryLoader.js"></script>
         <script type="text/javascript" src="../scripts/player/com/livescribe/lsnotes/utility/StrokeRenderer.js"></script>-->
     <script type="text/javascript" src="./assets/WebContext.js"></script>
-    <script type="text/javascript" src="./assets/EnvironmentManager(1).js"></script>
     <script type="text/javascript" src="./assets/LocalFileLoader.js"></script>
-    <script type="text/javascript" src="./assets/RequestManager.js"></script>
     <script type="text/javascript" src="./assets/PDFPlusCatalog.js"></script>
     <script type="text/javascript" src="./assets/PDFPlusAudioCatalog.js"></script>
     <script type="text/javascript" src="./assets/PDFPlusAssetBase.js"></script>
@@ -75,14 +68,13 @@
     <script type="text/javascript" src="./assets/Session.js"></script>
     <script type="text/javascript" src="./assets/StrokeSession.js"></script>
     <script type="text/javascript" src="./assets/AudioSession.js"></script>
-    <script type="text/javascript" src="./assets/PageInstance.js"></script>
-    <script type="text/javascript" src="./assets/PageTemplate.js"></script>
-    <script type="text/javascript" src="./assets/PageImage.js"></script>
+    <!-- <script type="text/javascript" src="./assets/PageInstance.js"></script> -->
+    <!-- <script type="text/javascript" src="./assets/PageTemplate.js"></script> -->
+    <!-- <script type="text/javascript" src="./assets/PageImage.js"></script> -->
     <script type="text/javascript" src="./assets/PencastData.js"></script>
     <script type="text/javascript" src="./assets/PencastBase.js"></script>
     <script type="text/javascript" src="./assets/LocalPDFPencast.js"></script>
-    <script type="text/javascript" src="./assets/RemoteClassicPencast.js"></script>
-    <!--<script type="text/javascript" src="../scripts/player/com/livescribe/lsnotes/pencastplayer/RemotePDFPencast.js"></script> -->
+
     <script type="text/javascript" src="./assets/LaunchInstructions.js"></script>
     <script type="text/javascript" src="./assets/Trigger.js"></script>
     <script type="text/javascript" src="./assets/Modal.js"></script>
@@ -102,11 +94,6 @@
     <script type="text/javascript" src="./assets/WebAudioPlayer.js"></script>
     <script type="text/javascript" src="./assets/translate.js"></script>
     <script type="text/javascript" src="./assets/Player.js"></script>
-    <!--<script type="text/javascript" src="../scripts/player/PlayerMain.js"></script>-->
-    <!--<script type="text/javascript" src="../scripts/player/com/livescribe/lsnotes/pencastplayer/Document.js"></script>-->
-    <!--<script type="text/javascript" src="../scripts/player/com/plugins/jquery-1.7-externs.js"></script>-->
-    <!--<script type="text/javascript" src="../player-compiled.js"></script> -->
-    <!--<script type="text/javascript" src="../player/main.js"></script>-->
 </head>
 
 <body>
@@ -172,26 +159,27 @@
     </div>
     <!-- Top Bar End  -->
 
-    <!-- Settings Button Start  -->
+    <!-- Download Start -->
+    <div id="mDownloadButton" class="active" style="display: none;">
+    </div>
+    <!-- Download End -->
+
+    <!-- Settings Start  -->
     <div id="mSettingsButton" class="active" style="display: none;">
     </div>
-    <!-- Settings Button End  -->
-
-
-    <!-- Settings Controls Start  -->
     <div id="mSettings" class="noselect" style="background-position: left top; display: none">
         <a id="release-notes" target="_blank"
             href="https://www.livescribe.com/en-us/releasenotes/index.html#Player">About
             Livescribe Player Beta</a>
-        <hr align="left">
+        <hr />
         <input id="mPreviewStroke" name="mPreviewStroke" checked="checked" type="checkbox" value="PreviewStroke"
             tabindex="1">
         <label for="mPreviewStroke"><span></span>Display Preview Strokes</label>
-        <hr align="left">
+        <hr />
         <input id="mEnableAutoPage" name="mEnableAutoPage" checked="checked" type="checkbox" value="DisableAutoPage"
             tabindex="1">
         <label for="mEnableAutoPage"><span></span>Enable Auto Page Turn</label>
-        <hr align="left">
+        <hr />
         <p style="margin:8px 0 5px;">Select Stroke Color</p>
         <div id="mColorPickerVisable">
             <div class="ColorBlock active">
@@ -238,7 +226,7 @@
             </div>
         </div>
     </div>
-    <!-- Settings Controls End  -->
+    <!-- Settings End  -->
 
 
     <!-- Playback Controls Start  -->

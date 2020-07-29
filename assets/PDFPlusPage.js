@@ -17,6 +17,7 @@ LiveScribe.PDFPlus.PDFPlusPage = function () {
 };
 
 LiveScribe.PDFPlus.PDFPlusPage.prototype.IdentifyStrokes = function () {
+
     for (var traceIndex = 0; traceIndex < this.TraceGroup.Traces.length; traceIndex++) {
         var isInSession = false;
         var trace = this.TraceGroup.Traces[traceIndex]
@@ -52,6 +53,3 @@ LiveScribe.PDFPlus.PDFPlusPage.prototype.IdentifyStrokes = function () {
         }
     }
 };
-
-
-
